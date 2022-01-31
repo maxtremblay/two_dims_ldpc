@@ -1,0 +1,156 @@
+% Drawing
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% Colors
+
+\usepackage{xcolor}
+
+\definecolor{spinprimary}{HTML}{6247AA}
+\definecolor{spinprimarylight}{HTML}{9163CB}
+\definecolor{spinprimarylighter}{HTML}{C19EE0}
+
+\definecolor{spinsecondary}{HTML}{0A9396}
+\definecolor{spinsecondarylight}{HTML}{94D2BD}
+\definecolor{spinsecondarylighter}{HTML}{C7EBDC}
+
+\definecolor{spinternary}{HTML}{E4A41A}
+\definecolor{spinternaryight}{HTML}{E6AC2F}
+\definecolor{spinternarylighter}{HTML}{E8B442}
+
+\definecolor{spindark}{HTML}{1F1F1F}
+\definecolor{spingrey}{HTML}{505050}
+\definecolor{spinlight}{HTML}{FFFFFF}
+
+\setbeamercolor{itemize item}{fg=spinprimary}
+\setbeamercolor{enumerate item}{fg=spinprimary}
+\setbeamercolor{alerted text}{fg=spinprimary}
+\setbeamercolor{section in toc}{fg=spindark}
+
+% Fonts
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage[none]{hyphenat} % Remove hyphen from titles.
+
+\setmainfont{Source Serif Pro}
+\setsansfont{Source Sans Pro}
+\setmonofont{Source Code Pro}
+
+\setbeamerfont{itemize/enumerate body}{size=\Large}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\small}
+
+% Remove indentation
+\setlength{\parindent}{0pt}
+
+% Disable navigation
+
+\setbeamertemplate{navigation symbols}{}
+
+% Disable caption labels (e.g. Figure:)
+
+\setbeamertemplate{caption}{\tiny\insertcaption}
+\setbeamertemplate{caption label separator}{}
+
+
+% Slide numbers
+
+\newcounter{showSlideNumbers}
+\setcounter{showSlideNumbers}{1}
+
+% Slide template
+
+\setbeamertemplate{title page}{} % Disable the title page decoration
+
+\setbeamertemplate{frametitle}{} % Disable the frame title decoration
+
+\setbeamertemplate{background}{
+    \begin{tikzpicture}
+        % Set up the entire slide as the canvas
+        \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+
+        % The background
+        \fill[color=spinlight] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+
+         % Separate the drawing based on if we're the first (title) slide or not
+        \ifnum\thepage=1\relax
+            % The title page
+            % draw the fills
+            \fill[color=spinprimary] 
+            (0, 0.45 * \the\paperheight) rectangle(\the\paperwidth, \the\paperheight);
+
+            % Draw the actual text
+            \node
+              [anchor=south west,text width=0.75*\the\paperwidth]
+              at (0.05*\the\paperwidth, 0.475*\the\paperheight) 
+              {\color{spinlight}\huge\textbf{\inserttitle}};
+
+
+            \node 
+              [anchor=north west,text width=0.8*\the\paperwidth]
+              at (0.05*\the\paperwidth, 0.425*\the\paperheight) 
+              {\color{spindark}\Large\insertauthor};
+
+            \node 
+              [anchor=south west,text width=0.8*\the\paperwidth]
+              at (0.05*\the\paperwidth, 0.05*\the\paperheight) 
+              {\color{spingrey}\insertinstitute};
+
+            % add the date in the corner
+            \node
+              [anchor=south east] 
+              at (0.95*\the\paperwidth, 0.05*\the\paperheight) 
+              {\color{spingrey}\insertdate};
+       \else
+            \node
+              [anchor=north west, text width=0.8*\the\paperwidth] 
+              at (0.05*\the\paperwidth,0.95*\the\paperheight) 
+              {\color{spinprimary}\Large\textbf{\insertframetitle}};
+
+            \ifnum \value{showSlideNumbers}>0\relax%
+              \node
+                [anchor=south east]
+                at (0.95*\the\paperwidth, 0.05*\the\paperheight) 
+                {\color{spingrey}\tiny\insertframenumber};
+            \fi
+        \fi
+    \end{tikzpicture}
+}
+\makeatother
+
+% Section pages
+
+\AtBeginSection{\frame{\sectionpage}}
+\setbeamertemplate{section page}
+{
+    \begin{tikzpicture}
+        % set up the entire slide as the canvas
+        \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+        \fill[color=spinsecondary] (-0.5*\the\paperwidth, 0) rectangle(1.5*\the\paperwidth, 1.5*\the\paperheight);
+        \node
+          [text width=0.8*\the\paperwidth,align=center] 
+          at (0.45*\the\paperwidth, 0.5*\the\paperheight) 
+          {\color{spinlight}\huge\textbf{\insertsection}};
+    \end{tikzpicture}
+}
+
+% Nicer list markers
+
+\setbeamertemplate{itemize item}{
+    \tikz{
+        \draw[fill=spinsecondary,draw=none] (0, 0) rectangle(0.1, 0.1);
+        \draw[fill=spinsecondary,draw=none] (0.1, 0.1) rectangle(0.2, 0.2);
+        \draw[fill=spinsecondary,draw=none] (0, 0.2) rectangle(0.1, 0.3);
+    }
+}
+
+\setbeamertemplate{itemize subitem}{
+    \tikz{
+        \draw[fill=spinternary,draw=none] (0, 0) rectangle(0.075, 0.075);
+        \draw[fill=spinternary,draw=none] (0.075, 0.075) rectangle(0.15, 0.15);
+        \draw[fill=spinternary,draw=none] (0, 0.15) rectangle(0.075, 0.225);
+    }
+}
+
