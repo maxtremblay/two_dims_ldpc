@@ -154,3 +154,17 @@
     }
 }
 
+
+% Nicer looking theorems
+
+\newtheoremstyle{spinthm}{}{}
+{\color{\spinsecondary}}{}
+{\color{\spinsecondary}\bfseries}
+{}{ }{}
+
+\theoremstyle{spinthm}
+
+\addtobeamertemplate{theorem begin}{%
+  \setbeamercolor{block title}{bg=spinlight,fg=spinsecondary}%
+}{}
+
