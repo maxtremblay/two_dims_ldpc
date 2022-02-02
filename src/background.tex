@@ -1,9 +1,430 @@
-\section{Background}
+\section{Background and definitions}
 
-\begin{frame}
-  Something
+% Clifford circuits
+
+\begin{frame}{Clifford circuit}
+  \centering
+  \begin{itemize}
+    \item Preparations of \ket{0} and \ket{+} and classical bits.
+    \pause
+    \item Single-qubit and two-qubit Pauli measurements.
+    \pause
+    \item Single-qubit and two-qubit unitary Clifford gates.
+    \pause
+    \item Classically-controlled Pauli operators.
+    \pause
+    \item Ouput the parity of some subsets of measurement outcomes.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Clifford circuit}
+  \centering
+  \begin{equation*}
+  \Qcircuit @C=1.25em @R=1.25em { 
+    \lstick{\ket{\psi_1}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{1}  & \qw & \qw \\ 
+    \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \qw                   & \qw              & \qw & \targ     & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+    \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \multigate{2}{M_{XX}} & \qw              & \qw & \qw       & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cw                   & \cw       & \cghost{M_{XX}}       & \cctrl{1}        &     &           &     &      &  & \text{parity} \\ 
+    \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \ghost{M_{XX}}        & \gate{Z} \cwx[2] & \qw & \qw       & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+    \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \qw                   & \gate{Z}         & \qw & \targ     & \qw & \gate{M_Z} \\ 
+    \lstick{\ket{\psi_2}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{-1} & \qw & \qw 
+    \gategroup{2}{8}{8}{9}{1em}{\}}
+  }
+  \end{equation*}
+\end{frame}
+
+\begin{frame}{Local circuit}
+  \centering
+  \Large
+  \hfill\\[3mm]
+  A $b$-local circuit is a circuit with qubits placed on a subset of the $\mathbb Z \times \mathbb Z$
+  grid such that any two-qubit operation acts on qubits at distance at most $b$ from each other.
+  \\[6mm]
+  \pause
+  \begin{tikzpicture}
+    \node
+      [diamond, fill = spinsecondarylighter, scale=3.8] 
+      (d) at (1,2) {};
+
+    \foreach \x in {0,...,7}
+      \foreach \y in {0,...,7} 
+        \fill[spinprimary] (0.5 * \x, 0.5 * \y) circle (0.1);
+    \fill[spinsecondary] (1.0, 2.0) circle (0.1);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c]{Connectivity graph}
+  \centering
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1.25em @R=1.25em { 
+          \lstick{1} & \ctrl{1} & \gate{H}  & \targ     & \qw \\
+          \lstick{2} & \targ    & \targ     & \ctrl{-1} & \qw \\
+          \lstick{3} & \gate{H} & \qw       & \ctrl{1}  & \qw \\
+          \lstick{4} & \ctrl{2} & \qw       & \targ     & \qw \\ 
+          \lstick{5} & \qw      & \ctrl{-3} & \targ     & \qw \\
+          \lstick{6} & \targ    & \gate{H}  & \ctrl{-1} & \qw 
+        }
+      \end{equation*}
+    \end{column}
+    \pause
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \draw[line width=0.5mm] (0, 0) -- (0,1);
+        \draw[line width=0.5mm] (0, 2) -- (0,3);
+        \draw[line width=0.5mm] (0, 4) -- (0,5);
+        \draw[line width=0.5mm] (0,1) arc [
+          start angle=-90,
+          end angle=90,
+          x radius=0.75,
+          y radius=1.5
+        ];
+        \draw[line width=0.5mm] (0,2) arc [
+          start angle=90,
+          end angle=270,
+          x radius=0.75,
+          y radius=1
+        ];
+
+        \foreach \y in {0,...,5} 
+          \fill[spinprimary] (0, \y) circle (0.2);
+
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Stabilizer code}
+
+  \centering
+  \stitle{Stabilizer group} 
+  \\[3mm]
+  $
+    \mathcal S 
+    = \langle S_1, S_2, \ldots, S_r \rangle
+    \subset \mathcal P_n \setminus \lbrace -I \rbrace
+  $
+  such that $S_i S_j = S_j S_i$
+
+  \hfill\\
+  \pause
+
+  \stitle{Stabilizer code}
+  \\[3mm]
+  common $+1$ eigenspace of $\mathcal S$
+  \begin{equation*}
+    C(S) = 
+    \lbrace 
+      \ket \psi 
+      \, : \, 
+      S \ket \psi = \psi 
+      \, \forall S \in \mathcal S 
+    \rbrace
+  \end{equation*}
+
+  \pause
+
+  \stitle{Example}
+  \\[3mm]
+  The five qubits code
+  \begin{equation*}
+    \mathcal S =
+    \langle
+      XXZIZ,
+      ZXXZI,
+      IZXXZ,
+      ZIZXX
+    \rangle
+  \end{equation*}
+
+\end{frame}
+
+\begin{frame}[c]{Pauli measurement circuit}
+  \Large
+  \begin{itemize}
+    \item  
+    Consider $n$-qubit independent commuting Pauli operators
+    $S_1, \ldots, S_r$.
+    \pause
+    \item
+    For $\boldsymbol{m} = (m_1, \ldots, m_r) \in \mathbb Z_2^r$,
+    denote $\Pi_{\boldsymbol{m}}$ the projector onto the common eigenspace of $S_i$ 
+    with value $(-1)^{m_i}$.
+    \pause
+    \item
+    A Pauli measurement circuit maps a $n$-qubit state $\rho$ to
+    $\Pi_{\boldsymbol{m}} \rho \Pi_{\boldsymbol{m}}$ with probability $\text{Tr}(\Pi_{\boldsymbol{m}}\rho)$
+    and output $\boldsymbol{m}$.
+    \pause
+    \item
+    The circuit use $N = n + a$ qubits where $a$ is the number of ancilla qubits.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Tanner graph}
+  \centering
+  \Large
+  \begin{equation*}
+    S = 
+    \lbrace
+     XXIII,
+     ZXIZI,
+     IIYZZ
+    \rbrace
+  \end{equation*}
+  \begin{columns}[c]
+    \pause
+    \begin{column}{0.45\textwidth}
+      \centering
+      $T(S) = ({\color{spinprimary}V_Q} \cup {\color{spinsecondary}S}, E)$
+      \\
+      $\lbrace q_i, S_j\rbrace \in E$ iff $S_j$ acts non-trivially on $q_i$
+    \end{column}
+    \pause
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \draw[line width = 0.5mm] (0, 4) -- (3, 3.5);
+        \draw[line width = 0.5mm] (0, 3) -- (3, 3.5);
+
+        \draw[line width = 0.5mm] (0, 4) -- (3, 2);
+        \draw[line width = 0.5mm] (0, 3) -- (3, 2);
+        \draw[line width = 0.5mm] (0, 1) -- (3, 2);
+
+        \draw[line width = 0.5mm] (0, 2) -- (3, 0.5);
+        \draw[line width = 0.5mm] (0, 1) -- (3, 0.5);
+        \draw[line width = 0.5mm] (0, 0) -- (3, 0.5);
+
+        \foreach \y in {0, ..., 4}
+          \fill[spinprimary] (0, \y) circle (0.2);
+        \foreach \y in {0, ..., 2}
+          \fill[spinsecondary] (2.8, 1.5*\y+0.3) rectangle (3.2, 1.5*\y+0.7);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Contracted Tanner graph}
+  \centering
+  \Large
+  \begin{equation*}
+    S = 
+    \lbrace
+     XXIII,
+     ZXIZI,
+     IIYZZ
+    \rbrace
+  \end{equation*}
+  \begin{columns}[c]
+    \pause
+    \begin{column}{0.45\textwidth}
+      \centering
+      $\bar{T}(S) = ({\color{spinprimary}V_Q}, \bar{E})$
+      \\
+      $\lbrace q_i, q_j\rbrace \in \bar E$ iff $\exists S_k$ actings non-trivially on $q_i$
+    \end{column}
+    \pause
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \draw[line width = 0.5mm] (0, 4) -- (0, 3);
+        \draw[line width=0.5mm] (0,4) arc [
+          start angle=90,
+          end angle=270,
+          x radius=0.75,
+          y radius=1.5
+        ];
+
+        \draw[line width=0.5mm] (0,3) arc [
+          start angle=90,
+          end angle=-90,
+          x radius=0.75,
+          y radius=1
+        ];
+
+        \draw[line width = 0.5mm] (0, 2) -- (0, 1);
+        \draw[line width=0.5mm] (0,2) arc [
+          start angle=90,
+          end angle=270,
+          x radius=0.75,
+          y radius=1
+        ];
+
+        \draw[line width = 0.5mm] (0, 1) -- (0, 0);
+
+        \foreach \y in {0, ..., 4}
+          \fill[spinprimary] (0, \y) circle (0.2);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[c]{Quantum LDPC codes}
+  \centering
+  \Large
+  A family of quantum LDPC codes $(Q_i)_i$ is a family
+  of stabilizer codes such that the degree of the Tanner graph $T_i$ 
+  are bounded by some constant independent of $i$.
+\end{frame}
+
+\begin{frame}[c]{Local-expansion}
+  \centering
+  \Large
+  The Cheeger constant of a graph $G = (V, E)$ is defined as 
+  \begin{equation*}
+    h_{\varepsilon}(G) 
+    = 
+    \min_{\substack{
+      L \subseteq V \\
+      |L| \leq \varepsilon |V| / 2
+    }}
+    \frac
+      {|\partial L|}
+      {|L|}.
+  \end{equation*}
+  \\[2mm]
+  \pause
+  A family of graphs $(G_i)_{i\in \mathbb N}$ is an $(\alpha, \varepsilon)$-expander
+  graph family if $h_{\varepsilon}(G_i) \geq \alpha$ for all $i$.
+  \\[4mm]
+  \pause
+  A family of quantum local-expander codes is a family of stabilizer codes with $(\alpha, \varepsilon)$-expander
+  contracted Tanner graphs.
+\end{frame}
+
+\begin{frame}[c]{Lemma}
+  \Large
+  \hfill\\
+  Let $T$ be the Tanner graph of a stabilizer code 
+  with length $n$ and with $r$ stabilizer generators.
+  Let $\bar T$ be its contracted Tanner graph.
+  Then, for all $\varepsilon \in [0, 1]$, we have
+  \begin{equation*}
+    h_{\varepsilon'}(\bar T) 
+    \geq 
+    \frac
+      {h_\varepsilon(T)}
+      {\text{deg}(T)}
+  \end{equation*}
+  where
+  \begin{equation*}
+    \varepsilon' =
+    \left( 1 + \frac{r}{n} \right)
+    \frac{\varepsilon}{1 + \text{deg}(T)}.
+  \end{equation*}
 \end{frame}
 
 \begin{frame}
-  Another thing
+  \Large
+  \begin{itemize}
+    \item Show that 
+      $$
+        \left| \partial_{\bar T} L \right|
+        \geq 
+        \frac
+        { \left| \partial_{T}(L \cup N_T(L)) \right| }
+        { \text{deg}(T) }.
+      $$
+    \pause
+    \item If 
+      $$
+         \left| L \cup N_T(L) \right|
+         \leq 
+         \varepsilon \frac{V(T)}{2},
+      $$ 
+      then
+      $$
+         \left| \partial_{T}(L \cup N_T(L)) \right|
+         \geq 
+         h_{\varepsilon}(T)
+         \left| L \cup N_T(L) \right|
+         \geq 
+         h_{\varepsilon}(T)
+         \left| L \right|.
+      $$
+    \pause
+    \item Combine the two
+      $$
+        \frac
+          { \left| \partial_{\bar T} L \right| }
+          { \left| L \right| }
+        \geq 
+        \frac
+        {h_{\varepsilon}(T)}
+        {\text{deg}(T)}.
+      $$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \Large
+  \centering
+  $$
+    \left| \partial_{\bar T} L \right|
+    \text{deg}(T)
+    \geq 
+    \left| \partial_{T}(L \cup N_T(L)) \right|
+  $$
+  \begin{columns}[c]
+    \begin{column}{0.45\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \draw[line width = 0.5mm] (0,0) rectangle (6,4);
+        \node (V) at (0.7,0.4) {$V(\bar T)$};
+
+        \fill[spinprimarylighter!50] (1.75,2.25) circle (1.25);
+        \node[text=spinprimary] (L) at (1.1,2.8) {$L$};
+
+        \draw[line width = 0.5mm] (2.25, 1.75) -- (5, 2);
+
+        \fill[spinprimary] (2.25,1.75) circle (0.15);
+
+        \fill[spinprimary] (5,2) circle (0.15);
+      \end{tikzpicture}
+    \end{column}
+
+    \begin{column}{0.45\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \draw[line width = 0.5mm] (0,0) rectangle (6,4);
+        \node (V) at (0.7,0.4) {$V(T)$};
+
+        \node
+          [ellipse, fill = spinsecondarylighter!50, scale=7.4] 
+          (e) at (2.3,2.2) {\,};
+        \node[text=spinsecondary] (N) at (3.6,2.8) {$N_T(L)$};
+
+        \fill[spinprimarylighter!50] (1.75,2.25) circle (1.25);
+        \node[text=spinprimary] (L) at (1.1,2.8) {$L$};
+
+        \draw[line width = 0.5mm] (2.25, 1.75) -- (3.7, 2.0);
+        \draw[line width = 0.5mm] (2.25, 1.75) -- (3.2, 1.2);
+        \draw[line width = 0.5mm] (3.7, 2.0) -- (5, 2);
+        \draw[line width = 0.5mm] (3.2, 1.2) -- (5, 2);
+
+        \fill[spinprimary] (2.25,1.75) circle (0.15);
+        \fill[spinprimary] (5,2) circle (0.15);
+
+        \fill[spinsecondary] (3.5, 1.8) rectangle (3.9, 2.2);
+        \fill[spinsecondary] (3.0, 1.0) rectangle (3.4, 1.4);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Review}
+  \begin{itemize}
+    \item (Local) Clifford circuits
+    \item Connectivity graphs
+    \item Stabilizer codes and LDPC codes
+    \item Pauli measurement circuits
+    \item (Contracted) Tanner graphs
+    \item Expander codes
+  \end{itemize}
 \end{frame}

@@ -91,6 +91,24 @@
   \end{equation*}
 \end{frame}
 
+\begin{frame}[c]{Long range interactions from local operations}
+  \centering
+  \begin{equation*}
+  \Qcircuit @C=1.25em @R=1.25em { 
+    \lstick{\ket{\psi_1}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{1}  & \qw & \qw        & \qw \\ 
+    \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \qw                   & \qw              & \qw & \targ     & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+    \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \multigate{2}{M_{XX}} & \qw              & \qw & \qw       & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cw                   & \cw       & \cghost{M_{XX}}       & \cctrl{1}        &     &           &     &      &  & \text{parity} \\ 
+    \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \ghost{M_{XX}}        & \gate{Z} \cwx[2] & \qw & \qw       & \qw & \gate{M_Z} \\ 
+    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+    \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \qw                   & \gate{Z}         & \qw & \targ     & \qw & \gate{M_Z} \\ 
+    \lstick{\ket{\psi_2}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{-1} & \qw & \qw        & \qw
+    \gategroup{2}{8}{8}{9}{1em}{\}}
+  }
+  \end{equation*}
+\end{frame}
+
 \begin{frame}{Main results}
   \centering
   \hfill\\
@@ -142,10 +160,9 @@
 
 \begin{frame}{Outline}
   \begin{enumerate}
-    \item Quick review of stabilizer codes
-    \item Clifford circuits
-    \item Graphs, graphs and more graphs
+    \item Background and definitions
     \item Proof of the main theorem
     \item Circuit implementations
+    \item Numerical experiments
   \end{enumerate}
 \end{frame}

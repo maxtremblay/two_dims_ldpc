@@ -1,0 +1,32 @@
+\section{Proof of the main theorem}
+
+\begin{frame}
+  \centering
+  \hfill\\
+  \begin{theorem}
+    Let $C$ be a Clifford circuit measuring computing Pauli operators $S_1, \ldots, S_r$.
+    Then, for any subset of qubits $L$, we have
+    \begin{equation*}
+      \text{depth}(C) 
+      \geq
+      \frac
+        {n_{\text{cut}}}
+        {64 |\partial L|}.
+    \end{equation*}
+  \end{theorem}
+  \begin{corollary}
+    For families of local-expander quantum LDPC codes of length $n$,
+    a syndrome extraction circuit $C$ implemented as a local Clifford circuit 
+    on a $\sqrt{N} \times \sqrt{N}$ grid of qubits
+    satisfies
+    \begin{equation*}
+      \text{depth}(C) 
+      \geq
+      \Omega \left(
+        \frac 
+          {n}
+          {\sqrt{N}}
+      \right).
+    \end{equation*}
+  \end{corollary}
+\end{frame}
