@@ -30,3 +30,49 @@
     \end{equation*}
   \end{corollary}
 \end{frame}
+
+\begin{frame}{Strategy}
+  \hfill\\
+  \begin{itemize}
+    \item Partition the circuit's qubits into two subsets $L$ and $R$.
+    \pause
+    \item Lower bound the amount of correlation required between $L$ and $R$ 
+    to measure the Pauli operators.
+    \pause
+    \item Upper bound the amount of correlation introduced per operation.
+    \pause
+    \item Combine both arguments to derive a lower bound for the depth of the circuit.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Measuring correlations}
+  \hfill\\
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1em @R=1em {
+          \lstick{\ket{0}} & \multigate{4}{C_{XX}} & \qw & \qw      & \qw & \multigate{4}{C_{XX}} & \qw    & \\
+          \lstick{\ket{0}} & \ghost{C_{XX}}        & \qw & \qw      & \qw & \ghost{C_{XX}}        & \qw    & \\
+          \vdots           & \nghost{C_{XX}}       &     & \vdots   &     & \nghost{C_{XX}}       & \vdots &\\
+                           & \nghost{C_{XX}}       & \cw & b_1      &     & \nghost{C_{XX}}       & \cw    & b'_1 \\
+                           & \nghost{C_{XX}}       & \cw & b_2      &     & \nghost{C_{XX}}       & \cw    & b'_2
+        }
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \pause
+      {\color{spinsecondary}Mutual information}
+      \begin{equation*}
+        I(b_1 ; b_2) = 0
+      \end{equation*}
+      \pause
+      \begin{equation*}
+        I(b'_1 ; b'_2 | b_1, b_2) = 1
+      \end{equation*}
+    \end{column}
+  \end{columns}
+\end{frame}
+
