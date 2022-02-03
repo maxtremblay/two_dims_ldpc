@@ -80,11 +80,11 @@
   \begin{equation*}
   \Qcircuit @C=1.25em @R=1.25em { 
     \lstick{\ket{0}} & \multigate{2}{M_{XX}} & \qw       & \qw                   & \qw              & \qw \\ 
-    \lstick{0}       & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     \\ 
+                     & \nghost{M_{XX}}       & \cctrl{1} &                       &                  &     \\ 
     \lstick{\ket{0}} & \ghost{M_{XX}}        & \gate{Z}  & \multigate{2}{M_{XX}} & \qw              & \qw \\ 
-    \lstick{0} & \cw & \cw & \cghost{M_{XX}} & \cctrl{1} &                       &                  &     & & & \ket{++++} + \ket{----} \\ 
+                     &                       &           & \nghost{M_{XX}}       & \cctrl{1}        &      & & & & & \ket{++++} + \ket{----} \\ 
     \lstick{\ket{0}} & \multigate{2}{M_{XX}} & \qw       & \ghost{M_{XX}}        & \gate{Z} \cwx[2] & \qw \\ 
-    \lstick{0}       & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     \\ 
+                     & \nghost{M_{XX}}       & \cctrl{1} &                       &                  &     \\ 
     \lstick{\ket{0}} & \ghost{M_{XX}}        & \gate{Z}  & \qw                   & \gate{Z}         & \qw  
     \gategroup{1}{6}{7}{6}{1.25em}{\}}
   }
@@ -97,11 +97,11 @@
   \Qcircuit @C=1.25em @R=1.25em { 
     \lstick{\ket{\psi_1}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{1}  & \qw & \qw        & \qw \\ 
     \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \qw                   & \qw              & \qw & \targ     & \qw & \gate{M_Z} \\ 
-    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+                          & \nghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
     \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \multigate{2}{M_{XX}} & \qw              & \qw & \qw       & \qw & \gate{M_Z} \\ 
-    \lstick{0}            & \cw                   & \cw       & \cghost{M_{XX}}       & \cctrl{1}        &     &           &     &      &  & \text{parity} \\ 
+                          &                       &           & \nghost{M_{XX}}       & \cctrl{1}        &     &           &     &      &  & \text{parity} \\ 
     \lstick{\ket{0}}      & \multigate{2}{M_{XX}} & \qw       & \ghost{M_{XX}}        & \gate{Z} \cwx[2] & \qw & \qw       & \qw & \gate{M_Z} \\ 
-    \lstick{0}            & \cghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
+                          & \nghost{M_{XX}}       & \cctrl{1} &                       &                  &     &           &     &     \\ 
     \lstick{\ket{0}}      & \ghost{M_{XX}}        & \gate{Z}  & \qw                   & \gate{Z}         & \qw & \targ     & \qw & \gate{M_Z} \\ 
     \lstick{\ket{\psi_2}} & \qw                   & \qw       & \qw                   & \qw              & \qw & \ctrl{-1} & \qw & \qw        & \qw
     \gategroup{2}{8}{8}{9}{1em}{\}}

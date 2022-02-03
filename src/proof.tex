@@ -49,7 +49,7 @@
   \hfill\\
   \Large
   \begin{columns}[c]
-    \begin{column}{0.4\textwidth}
+    \begin{column}{0.55\textwidth}
       \centering
       \begin{equation*}
         \Qcircuit @C=1em @R=1em {
@@ -76,3 +76,250 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}{Measuring correlations}
+  \hfill\\
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1em @R=1em {
+          \lstick{\ket{0}} & \multigate{4}{C_{XX}} & \qw & \gate{E_1} & \qw & \multigate{4}{C_{XX}} & \qw    & \\
+          \lstick{\ket{0}} & \ghost{C_{XX}}        & \qw & \gate{E_2} & \qw & \ghost{C_{XX}}        & \qw    & \\
+          \vdots           & \nghost{C_{XX}}       &     & \vdots     &     & \nghost{C_{XX}}       & \vdots & \\
+                           & \nghost{C_{XX}}       & \cw & b_1        &     & \nghost{C_{XX}}       & \cw    & b'_1 \\
+                           & \nghost{C_{XX}}       & \cw & b_2        &     & \nghost{C_{XX}}       & \cw    & b'_2
+        }
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      {\color{spinsecondary}Mutual information}
+      \begin{equation*}
+        I(b_1', b_2', E_1 ; E_2) = 1
+      \end{equation*}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Measuring correlations}
+  \hfill\\
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1em @R=1em {
+          \lstick{\ket{+}} & \gate{M_Z} \cwx[1] & \qw & & \ket{00} \\
+          \lstick{\ket{0}} & \gate{X}           & \qw & & \ket{11} 
+          \gategroup{1}{3}{2}{3}{1em}{\}} 
+        }
+      \end{equation*}
+    \end{column}
+    \pause
+    \begin{column}{0.4\textwidth}
+      \centering
+      Classical operations can artificially boost mutual information.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Measuring correlations}
+  \hfill\\
+  \Large
+  \begin{itemize}
+    \item
+      Build a circuit $C'$ with the same action and similar depth as $C$ by pushing
+      all measurements and classical operations at the end.
+    \pause
+    \item
+      Consider the circuit $C' \circ E \circ C'$.
+    \pause
+    \item
+      Compute the mutual information
+      \begin{equation*}
+        I(O^{(2)}_L, E_L; O^{(2)}_R, E_R | O^{(1)}).
+      \end{equation*}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Circuit transformations}
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1em @R=1em {
+          \lstick{}  & \multigate{2}{M_{PQ}} & \qw \\
+                     & \cghost{M_{PQ}}       & \cw 
+          \inputgroupv{1}{2}{1em}{1em}{L}\\
+          \lstick{R} & \ghost{M_{PQ}}        & \qw   
+        }
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1em @R=1em {
+          \lstick{}   & \qw & \qw              & \gate{P}  & \qw      & \qw        & \qw \\
+          \lstick{}   &     & \lstick{\ket{+}} & \ctrl{-1} & \ctrl{2} & \gate{M_X}     \\
+                      & \cw & \cw              & \cw       & \cw      & \cctrlo{-1}        & \cw 
+          \inputgroupv{1}{3}{1em}{2em}{L'}\\
+           \lstick{R'} & \qw &\qw               & \qw       & \gate{Q} & \qw        & \qw  
+        }
+      \end{equation*}
+    \end{column}
+  \end{columns}
+  \hfill\\
+  \centering
+  \begin{equation*}
+    \text{depth}(C') \leq 4 \cdot \text{depth}(C) + 2
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[c]{Circuit transformations}
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=0.5em @R=0.5em {
+          \lstick{}          & \multigate{2}{U_1} & \qw        & \qw & \qw & \qw & \qw & \qw                & \multigate{2}{U_2} & \qw \\
+          \lstick{}          & \ghost{U_1}        & \qw        & \qw & \qw & \qw & \qw & \qw                & \ghost{U_2}        & \qw \\
+          \lstick{\ket{s_1}} & \ghost{U_1}        & \gate{M_1} &     &     &     &     & \lstick{\ket{s_2}} & \ghost{U_2}        & \gate{M_2} \\ 
+        }
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=0.5em @R=0.5em {
+          \lstick{\ket{s_1}} & \multigate{2}{U_1} & \qw & \qw                & \gate{M_1} \\ 
+          \lstick{}          & \ghost{U_1}        & \qw & \multigate{2}{U_2} & \qw \\
+          \lstick{}          & \ghost{U_1}        & \qw & \ghost{U_2}        & \qw \\
+          \lstick{\ket{s_2}} & \qw                & \qw & \ghost{U_2}        & \gate{M_2} \\ 
+        }
+      \end{equation*}
+    \end{column}
+  \end{columns}
+  \hfill\\[10mm]
+  \centering
+  \pause
+  \textbf{\color{spinsecondary}
+    Both ancillas are the same node in the connectivity graph 
+    and in the same partition.
+  }
+\end{frame}
+
+\begin{frame}[c]{Circuit transformations}
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \only<1-3>{
+        \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{P} & \gate{G} & \qw \\
+            & \cctrl{-1} & \cw & \cw
+          }
+        \end{equation*}
+      }
+      \hfill \\
+      \only<2-3>{
+        \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{P}     & \gate{M}    & \qw \\
+            & \cctrl{-1}   & \cw         & \cw \\
+            & \cw          & \cctrlo{-2} & \cw
+          }
+        \end{equation*}
+      }
+      \hfill \\
+      \only<3>{
+        \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{P_1} & \gate{P_2} & \qw & & \cdots & & &  \gate{P_s} & \qw \\
+            & \cctrl{-1} & \cctrl{-1} & \qw & & \cdots & & &  \cctrl{-1} & \cw
+          }
+        \end{equation*}
+      }
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \only<1-3>{
+        \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{G} & \gate{Q} & \qw \\
+            & \cw      & \cctrl{-1} &  \cw
+          }
+        \end{equation*}
+      }
+      \hfill \\
+      \only<2-3>{
+        \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{M}    & \gate{P}   & \qw & \qw \\
+            & \cw         & \cctrl{-1} & \cw & \cw \\
+            & \cctrlo{-2} & \cw        & \cw & \cw
+          }
+        \end{equation*}
+      }
+      \hfill \\
+      \only<3> {
+      \begin{equation*}
+          \Qcircuit @C=0.5em @R=0.5em {
+            & \gate{P} & \qw \\
+            & \cctrl{-1} & \cw 
+          }
+        \end{equation*}
+      }
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{Circuit transformations}
+  \centering
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{equation*}
+        \Qcircuit @C=1.5em @R=1.5em {
+          \lstick{\boldsymbol{D}}  & \multigate{1}{U} & \qw       & \gate{P} & \qw  \\
+          \lstick{\boldsymbol{A'}} & \ghost{U}        & \gate{M}  & \cctrl{-1} &\\
+        }
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \pause
+      \begin{equation*}
+        \text{depth}(U) \leq 4 \cdot \text{depth}(C) 
+      \end{equation*}
+      \hfill \\
+      \pause
+      \begin{equation*}
+        |\partial L| = |\partial L'|
+      \end{equation*}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[c]{The double measurement circuit}
+  \centering
+  \Large
+  \begin{equation*}
+    \Qcircuit @C=1em @R=1em {
+      \lstick{\boldsymbol{A_E}}  & \ket{+} &     & \gate{M_E}        & \cctrl{1} \\
+      \lstick{\boldsymbol{D}}    & \qw     & \qw & \multigate{1}{U}  & \gate{E} & \multigate{2}{U} & \qw & \qw & \qw        & \gate{P_1}         & \qw        & \gate{P_2} & \qw \\
+      \lstick{\boldsymbol{A'_1}} & \qw     & \qw &\ghost{U}         & \qw      & \nghost{U}       &     & \qw & \gate{M_1} & \cctrl{1} \cwx{-1} &            & \\
+      \lstick{\boldsymbol{A'_2}} & \qw     & \qw & \qw               & \qw      & \ghost{U}        & \qw & \qw & \qw        & \gate{P'_1}        & \gate{M_2} & \cctrl{-2} \\
+    }
+  \end{equation*}
+  \hfill\\
+  $
+    I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+  $
+  with $\bar L = L' \cup A_E$
+\end{frame}
