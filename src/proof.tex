@@ -410,6 +410,7 @@
 
 \begin{frame}[c]{Proof of the lower bound}
   \hfill\\
+  \Large
   By symmetry 
   \begin{equation*}
     I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
@@ -420,4 +421,118 @@
     \rbrace
     \geq \frac{n_{\text{cut}}}{2}.
   \end{equation*}
+\end{frame}
+
+\begin{frame}[c]{Proof of the upper bound}
+  \centering
+  \large
+  \begin{equation*}
+    \Qcircuit @C=1em @R=1em {
+      \lstick{\boldsymbol{A_E}}  & \ket{+} \barrier[0.5em]{4} &     & \gate{M_E} \barrier[-0.9em]{4} & \cctrl{1} \barrier[-1.1em]{4} & \barrier[-0.5em]{4} &     &            & \barrier[-1.2em]{4}  & \barrier[-1.2em]{4} &            & \\
+      \lstick{\boldsymbol{D}}    & \qw                        & \qw & \multigate{1}{U}               & \gate{E}                      & \multigate{2}{U}    & \qw & \qw        & \gate{P_1}           & \qw                 & \gate{P_2} & \qw \\
+      \lstick{\boldsymbol{A'_1}} & \qw                        & \qw & \ghost{U}                      & \qw                           & \nghost{U}          &     & \gate{M_1} & \cctrl{1} \cwx{-1}   &                     &            & \\
+      \lstick{\boldsymbol{A'_2}} & \qw                        & \qw & \qw                            & \qw                           & \ghost{U}           & \qw & \qw        & \gate{P'_1}          & \gate{M_2}          & \cctrl{-2} & \\
+                                 & \rstick{t_0}               &     & \rstick{t_1}                   & \rstick{t_2}                  & \rstick{t_3}        &     &            & \rstick{t_4}         & \rstick{t_5}        &            &
+    }
+  \end{equation*}
+  \hfill \\
+  \begin{equation*}
+    S_{A_2', A_E}(\rho_{\bar L}(t_5); \rho_{\bar R}(t_5))
+    =
+    I(O_{\bar L}^{(2)}, E_{\bar L}; O_{\bar R}^{(2)}, E_{\bar R})
+    \geq
+    I(O_{\bar L}^{(2)}, E_{\bar L}; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[c]{Proof of the upper bound}
+  \hfill \\[1cm]
+  \begin{itemize}
+    \large
+    \item  
+    Given a set of qubits and a partition into subsets $A$, $B$.
+    Let $\rho$ be a density matrix on $A \cup B$ and 
+    $G$ be a two-qubit unitary gate acting qubit of $A$ and a qubit of $B$.
+    Note $\rho' = G \rho G^\dag$, then
+    \begin{equation*}
+      S(\rho'_A ; \rho'_B) \leq S(\rho_A, \rho_B) + 4.
+    \end{equation*}
+    \only<1-> {
+    \item
+      Single qubit gates and measurements are CPTP maps. 
+      Thus, they can't increase the mutual entropy.
+    }
+    \only<2-> {
+    \item
+      Discarding a subsystem can't increase the mutual entropy.
+    }
+  \end{itemize}
+
+  \hfill\\[1.5cm]
+  {\large \color{spingrey}
+    Mariën et al, Communications in Mathematical Physics, 346(1), 2016
+  }
+\end{frame}
+
+
+\begin{frame}[c]{Proof of the upper bound}
+  \hfill \\[1cm]
+  \Large
+\end{frame}
+
+\begin{frame}[c]{Proof of the upper bound}
+  \centering
+  \large
+  \begin{equation*}
+    \Qcircuit @C=1em @R=1em {
+      \lstick{\boldsymbol{A_E}}  & \ket{+} \barrier[0.5em]{4} &     & \gate{M_E} \barrier[-0.9em]{4} & \cctrl{1} \barrier[-1.1em]{4} & \barrier[-0.5em]{4} &     &            & \barrier[-1.2em]{4}  & \barrier[-1.2em]{4} &            & \\
+      \lstick{\boldsymbol{D}}    & \qw                        & \qw & \multigate{1}{U}               & \gate{E}                      & \multigate{2}{U}    & \qw & \qw        & \gate{P_1}           & \qw                 & \gate{P_2} & \qw \\
+      \lstick{\boldsymbol{A'_1}} & \qw                        & \qw & \ghost{U}                      & \qw                           & \nghost{U}          &     & \gate{M_1} & \cctrl{1} \cwx{-1}   &                     &            & \\
+      \lstick{\boldsymbol{A'_2}} & \qw                        & \qw & \qw                            & \qw                           & \ghost{U}           & \qw & \qw        & \gate{P'_1}          & \gate{M_2}          & \cctrl{-2} & \\
+                                 & \rstick{t_0}               &     & \rstick{t_1}                   & \rstick{t_2}                  & \rstick{t_3}        &     &            & \rstick{t_4}         & \rstick{t_5}        &            &
+    }
+  \end{equation*}
+  \hfill \\
+  \only<1> {
+    \begin{equation*}
+      S(\rho_{\bar L}(t_0); \rho_{\bar R}(t_0))
+      = 0
+    \end{equation*}
+  }
+  \only<2> {
+    \begin{equation*}
+      S(\rho_{\bar L}(t_1); \rho_{\bar R}(t_1))
+      \leq 4 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
+  \only<3> {
+    \begin{equation*}
+      S(\rho_{\bar L}(t_2); \rho_{\bar R}(t_2))
+      \leq 4 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
+  \only<4> {
+    \begin{equation*}
+      S(\rho_{\bar L}(t_3); \rho_{\bar R}(t_3))
+      \leq 8 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
+  \only<5> {
+    \begin{equation*}
+      S(\rho_{\bar L}(t_4); \rho_{\bar R}(t_4))
+      \leq 8 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
+  \only<6> {
+    \begin{equation*}
+      S_{A_2', A_E}(\rho_{\bar L}(t_4); \rho_{\bar R}(t_4))
+      \leq 8 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
+  \only<7> {
+    \begin{equation*}
+      S_{A_2', A_E}(\rho_{\bar L}(t_5); \rho_{\bar R}(t_5))
+      \leq 8 \text{depth}(U) |\partial L|
+    \end{equation*}
+  }
 \end{frame}
