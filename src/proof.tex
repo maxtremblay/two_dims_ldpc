@@ -536,3 +536,75 @@
     \end{equation*}
   }
 \end{frame}
+
+\begin{frame}[c]{Main theorem}
+  \Large
+  \begin{align*}
+    \frac{n_{\text{cut}}}{2}
+    &\leq
+    I(O_{\bar L}^{(2)}, E_{\bar L}; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)}) \\
+    &\leq 8 \text{depth}(U) |\partial L| \\
+    &\leq 32 \text{depth}(C) |\partial L|
+  \end{align*}
+\end{frame}
+
+\begin{frame}[c]{Corollary}
+  \Large
+  For families of local-expander quantum LDPC codes of length $n$,
+  a syndrome extraction circuit $C$ implemented as a local Clifford circuit 
+  on a $\sqrt{N} \times \sqrt{N}$ grid of qubits
+  satisfies
+  \begin{equation*}
+    \text{depth}(C) 
+    \geq
+    \Omega \left(
+      \frac 
+        {n}
+        {\sqrt{N}}
+    \right).
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[c]{Proof}
+  \centering
+  \Large
+  \begin{columns}[c]
+    \begin{column}{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \node (L) at (2.5, 5.5) {$\sqrt{N}$};
+        \node (L) at (5.5, 2.5) {$\sqrt{N}$};
+        \fill[spingrey!20] (0,0) rectangle (5, 5);
+
+        \node (L) at (0.5, 4.5) {$L$};
+        \node (R) at (4.5, 4.5) {$R$};
+
+        \fill[spinprimarylighter] (1.35,2) circle (1.1);
+        \fill[spinprimary] (1.35, 2) circle (0.2);
+
+        \draw[line width = 0.15em] (1.75, -0.25) -- (1.75, 5.25);
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \begin{itemize}
+        \item
+          For all $\varepsilon \in [0, 1]$,
+          we can move the line such that  \\
+          $
+            \varepsilon n/2 - \sqrt{N} \leq |D \cap L| \leq \varepsilon n / 2.
+          $
+        \pause
+        \item
+          In the connectivity graph
+          $|\partial L| \leq a \sqrt{N}$
+        \pause
+        \item
+          In the contracted Tanner graph
+          $n_{\text{cut}} \geq b h_{\varepsilon}(\bar T) |D \cap L| $
+        \pause
+        \item
+          $\text{depth}(C) \geq c \varepsilon h_{\varepsilon}(\bar T)n / \sqrt{N}$
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
