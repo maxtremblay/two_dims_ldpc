@@ -323,3 +323,101 @@
   $
   with $\bar L = L' \cup A_E$
 \end{frame}
+
+\begin{frame}[c]{Bounds on the mutual information}
+  \hfill\\
+  \Large
+  \textbf{\color{spinsecondary} Lower bound} \\
+  For the double measurement circuit, we have
+  \begin{equation*}
+    I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+    \geq \frac{n_{\text{cut}}}{2}.
+  \end{equation*}
+  \\
+  \pause
+  \textbf{\color{spinsecondary} Upper bound} \\
+  For the double measurement circuit, we have
+  \begin{equation*}
+    I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+    \leq 32|\partial L| \text{depth}(C).
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[c]{Proof of the lower bound}
+  \hfill\\
+  Note $m_i^{(t)} = \bigoplus_{o \in O_i^{(t)}} o$, the outcome
+  for the measurement of $S_i$ in circuit $t$.
+  \\[3mm]
+  \pause
+  Note $M_{\bar L}^{(t)} = \lbrace m_{i, \bar L}^{(t)} = \bigoplus_{o \in O_i^{(t)} \cap \bar L} o \rbrace$ and 
+  similarly for $M_{\bar R}^{(t)}$.
+  \\[3mm]
+  \pause 
+  From the data processing inequality
+  \begin{align*}
+    I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+    &\geq 
+    I(M_{\bar L}^{(2)}, E_{\bar L} ; M_{\bar R}^{(2)}, E_{\bar R} | O^{(1)}) \\
+    \onslide<4->{
+      &= H(M_{\bar L}^{(2)}, E_{\bar L} | O^{(1)})
+      - H(M_{\bar L}^{(2)}, E_{\bar L} | M_{\bar R}^{(2)}, E_{\bar R}, O^{(1)}) \\
+    }
+    \onslide<5->{
+      &= H(M_{\bar L}^{(2)}, E_{\bar L}, O^{(1)}) - H(O^{(1)})
+      - H(E_{\bar L}) \\
+    }
+    \onslide<6->{
+      &= H(M_{\bar L}^{(2)}| E_{\bar L}, O^{(1)}).
+    }
+  \end{align*}
+\end{frame}
+
+\begin{frame}[c]{Proof of the lower bound}
+  \hfill\\
+  Note $S_{\text{cut}}$ the operators with support on both $L$ and $R$.
+  \\[3mm]
+  \pause
+  Note $S_{\text{cut}, \bar L}$ the operators $S_i \in S_{\text{cut}}$ for which
+  $m_i$ depends on at least one outcome in $O_L$.
+  \\[3mm]
+  \pause
+  Note $M_{\bar L,\text{cut}}^{(t)}$ the outcome of $M_{\bar L}^{(t)}$ corresponding to $S_{\text{cut}, \bar L}$.
+  \\[3mm]
+  \pause
+  From the data processing inequality
+  \begin{align*}
+    H(M_{\bar L}^{(2)}| E_{\bar L}, O^{(1)})
+    &\geq 
+    H(M_{\bar L, \text{cut}}^{(2)}| E_{\bar L}, O^{(1)}) \\
+    \onslide<5->{
+      &\geq 
+      H(M_{\bar L, \text{cut}}^{(2)}| E_{\bar L}, O^{(1)}, M_{\bar R}^{(2)}) \\
+    }
+    \onslide<6->{
+      &= 
+      H(m_i(E_{\bar R})\, : \, S_i \in S_{\text{cut}, \bar L} | E_{\bar L}, O^{(1)},  M_{\bar R}^{(2)}) \\
+    }
+    \onslide<7->{
+      &= 
+      H(m_i(E_{\bar R})\, : \, S_i \in S_{\text{cut}, \bar L}) \\
+    }
+    \onslide<8->{
+      &= 
+      |S_{\text{cut}, \bar L}|.
+    }
+  \end{align*}
+\end{frame}
+
+\begin{frame}[c]{Proof of the lower bound}
+  \hfill\\
+  By symmetry 
+  \begin{equation*}
+    I(O_{\bar L}^{(2)}, E_{\bar L} ; O_{\bar R}^{(2)}, E_{\bar R} | O^{(1)})
+    \geq 
+    \max \lbrace 
+      |S_{\text{cut}, \bar L}|, 
+      |S_{\text{cut}, \bar R}| 
+    \rbrace
+    \geq \frac{n_{\text{cut}}}{2}.
+  \end{equation*}
+\end{frame}
